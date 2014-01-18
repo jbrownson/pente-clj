@@ -1,6 +1,8 @@
 (ns pente.ai
   (:require [pente.model :as pente]))
 
+; TODO multi-threading
+
 ; TODO alpha-beta pruning http://en.wikipedia.org/wiki/Alpha–beta_pruning or other algorithms like negascout
 (defn minimax [[opposite-player movegen heuristic next-pos :as f] pos depth player]
   "http://en.wikipedia.org/wiki/Minimax"
