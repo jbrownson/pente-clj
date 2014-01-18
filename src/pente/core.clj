@@ -5,6 +5,8 @@
             [seesaw.core :as seesaw]
             [tailrecursion.javelin-clj :as javelin]))
 
+; TODO show players' captured pairs count in the GUI
+
 (seesaw/native!)
 
 (def game-size 13)
