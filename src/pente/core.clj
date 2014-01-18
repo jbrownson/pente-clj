@@ -30,7 +30,7 @@
 (def f (let [new-item (seesaw/menu-item :text "New")
              ai-item (seesaw/menu-item :text "AI Move")]
          (seesaw/listen new-item :action (fn [e] (reset! game (pente/new-game game-size))))
-         (seesaw/listen ai-item :action (fn [e] (swap! game #(let [move (second (ai/pente-minmax % ai-depth))] (pente/move % move)))))
+         (seesaw/listen ai-item :action (fn [e] (swap! game #(let [move (ai/pente-minmax % ai-depth)] (pente/move % move)))))
          (seesaw/frame :title "Pente" :on-close :exit :menubar (seesaw/menubar :items [(seesaw/menu :text "Game" :items [new-item ai-item])]))))
 
 (javelin/cell=

@@ -16,7 +16,7 @@
                     moves))))))
 
 (defn pente-minmax [game depth]
-  (minimax
+  (second (minimax
     [pente/not-color ; opposite-player
      (fn [game player] ; movegen
        (let [valid-moves (filter (partial pente/valid-move? game) (pente/board-coords (:board game)))]
@@ -32,4 +32,4 @@
        ({nil 0 (pente/not-color color) 1 color -1} (:winner game))) ; TODO improving this would vastly improve the AI
      pente/move ; next-pos
      ]
-    game depth (pente/not-color (:turn game))))
+    game depth (pente/not-color (:turn game)))))
