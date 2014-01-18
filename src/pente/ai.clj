@@ -17,19 +17,22 @@
 
 (defn pente-minmax [game depth]
   (second (minimax
-    [pente/not-color ; opposite-player
-     (fn [game player] ; movegen
-       (let [valid-moves (filter (partial pente/valid-move? game) (pente/board-coords (:board game)))]
-         (shuffle (filter (fn [coord]
-                   (some (complement nil?)
-                         (map
-                           (partial pente/cell (:board game))
-                           (mapcat (fn [direction]
-                                     (take 2 (rest (pente/coords-in-direction (:board game) coord direction))))
-                                   pente/directions))))
-                 valid-moves))))
-     (fn [game color] ; heuristic
-       ({nil 0 (pente/not-color color) 1 color -1} (:winner game))) ; TODO improving this would vastly improve the AI
-     pente/move ; next-pos
-     ]
-    game depth (pente/not-color (:turn game)))))
+            [pente/not-color ; opposite-player
+             (fn [game player] ; movegen
+               (let [valid-moves (filter (partial pente/valid-move? game) (pente/board-coords (:board game)))]
+                 (shuffle (filter (fn [coord]
+                                    (some (complement nil?)
+                                          (map
+                                            (partial pente/cell (:board game))
+                                            (mapcat (fn [direction]
+                                                      (take 2 (rest (pente/coords-in-direction (:board game) coord direction))))
+                                                    pente/directions))))
+                                  valid-moves))))
+             (fn [game color] ; heuristic
+               (cond
+                 (= color (:winner game)) Float/NEGATIVE_INFINITY
+                 (= (pente/not-color color) (:winner game)) Float/POSITIVE_INFINITY
+                 :else (+ (- (-> game :captures color)) ((pente/not-color color) (:captures game))))) ; TODO improving this would vastly improve the AI
+             pente/move ; next-pos
+             ]
+            game depth (pente/not-color (:turn game)))))
