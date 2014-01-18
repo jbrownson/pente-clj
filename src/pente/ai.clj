@@ -15,7 +15,7 @@
                (map (fn [move] [(- (first (minimax f (next-pos pos move) (dec depth) (opposite-player player)))) move])
                     moves))))))
 
-(defn pente-minmax [game depth]
+(defn pente-minimax [game depth]
   (second (minimax
             [pente/not-color ; opposite-player
              (fn [game player] ; movegen
